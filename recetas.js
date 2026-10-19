@@ -54,7 +54,7 @@ const RECETAS = [
       "100 g de nata para montar (35% MG)",
       "45 g de gofio (trigo o millo)",
       "50 g de azúcar",
-      "1 cucharadita de extracto de vainilla",
+      "1 cucharadita de aroma de vainilla",
       "1 pizca de sal",
     ],
     pasos: [
@@ -77,7 +77,7 @@ const RECETAS = [
       "280 g de leche semidesnatada",
       "120 g de nata para montar (35% MG)",
       "60 g de azúcar",
-      "1 cucharadita de extracto de vainilla",
+      "1 cucharadita de aroma de vainilla",
       "1 pizca de sal",
     ],
     pasos: [
@@ -167,7 +167,7 @@ const RECETAS = [
       "280 g de leche semidesnatada",
       "120 g de nata para montar (35% MG)",
       "60 g de azúcar",
-      "1 cucharadita de extracto de vainilla",
+      "1 cucharadita de aroma de vainilla",
       "1 pizca de sal",
       "Para el MIX-IN: 4-5 galletas Oreo",
     ],
