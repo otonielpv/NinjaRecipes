@@ -31,6 +31,10 @@
 
 * { box-sizing: border-box; }
 
+/* Evita que al hacer scroll hacia arriba el navegador recargue la página (pull-to-refresh) */
+html,
+body { overscroll-behavior-y: none; }
+
 body {
   margin: 0;
   background: var(--papel);
@@ -397,11 +401,12 @@ main {
   border: 1px solid var(--linea);
 }
 .tema button {
-  padding: 6px 10px;
-  font-family: var(--sans);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 34px;
+  padding: 0;
   color: var(--gris);
   background: none;
   border: 0;
@@ -410,8 +415,16 @@ main {
 }
 .tema button + button { border-left: 1px solid var(--linea); }
 .tema button.activo { background: var(--tinta); color: var(--papel); }
-.cabecera .titulo { padding-right: 150px; }
+.tema svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cabecera .titulo { padding-right: 90px; }
 @media (max-width: 480px) {
-  .tema { position: static; display: inline-flex; margin-top: 14px; }
-  .cabecera .titulo { padding-right: 0; }
+  .titulo { font-size: 1.65rem; }
 }
