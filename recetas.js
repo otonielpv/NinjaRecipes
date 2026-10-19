@@ -211,7 +211,7 @@ const RECETAS = [
       congelar(),
       creami("ICE CREAM"),
       respin(),
-      con(creami("MIX-IN", "Parte los Maltesers por la mitad con las manos, haz un hueco en el centro del helado, añádelos y procesa."), 5),
+      con(creami("MIX-IN", "Haz un hueco en el centro del helado, echa los Maltesers enteros y procesa. El MIX-IN ya los rompe en trozos."), 5),
     ],
   },
   {
