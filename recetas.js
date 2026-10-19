@@ -20,6 +20,52 @@ const enfriar = "Deja enfriar la mezcla a temperatura ambiente (o en la nevera) 
 
 const RECETAS = [
   {
+    id: "helado-mango",
+    nombre: "Helado de mango",
+    tipo: "Helado",
+    programa: "ICE CREAM",
+    ingredientes: [
+      "300-320 g de mango maduro, pelado y troceado",
+      "125 g de leche semidesnatada",
+      "100 g de nata para montar (35% MG)",
+      "60 g de azúcar",
+      "1 pizca de sal",
+    ],
+    pasos: [
+      "Pon el vaso de la Mambo en la báscula y pesa el mango troceado.",
+      mambo("Tritura el mango. Si quedan trozos, da unos segundos más a velocidad 7-8 hasta que el puré quede fino.", { tiempo: "20-30 s", temp: "—", vel: "5-6" }),
+      "Añade la leche, la nata, el azúcar y la sal.",
+      mambo("Mezcla hasta que el azúcar se disuelva.", { tiempo: "15-20 s", temp: "—", vel: "4" }),
+      congelar(),
+      creami("ICE CREAM", "Quita la tapa, monta el vaso en la CREAMi y procesa. Para un sabor más afrutado, usa SORBET en lugar de ICE CREAM."),
+      creami("RE-SPIN", "Si queda granulado o polvoso, repasa con RE-SPIN."),
+    ],
+  },
+  {
+    id: "gofio",
+    nombre: "Helado de gofio",
+    tipo: "Helado",
+    programa: "ICE CREAM",
+    ingredientes: [
+      "250 g de leche semidesnatada",
+      "100 g de nata para montar (35% MG)",
+      "45 g de gofio (trigo o millo)",
+      "50 g de azúcar",
+      "1 cucharadita de extracto de vainilla",
+      "1 pizca de sal",
+    ],
+    pasos: [
+      "Pon el vaso de la Mambo en la báscula y pesa todos los ingredientes.",
+      mambo("Mezcla hasta integrar el gofio sin grumos. Si hace falta, rasca las paredes y repite 15 segundos.", { tiempo: "30 s", temp: "—", vel: "4" }),
+      "Deja reposar la mezcla 15 minutos para que el gofio se hidrate y espese.",
+      mambo("Vuelve a mezclar.", { tiempo: "10 s", temp: "—", vel: "4" }),
+      congelar(),
+      creami("ICE CREAM"),
+      creami("RE-SPIN", "Si queda polvoso, añade 1-2 cucharadas de leche y repasa con RE-SPIN una o dos veces."),
+    ],
+    consejo: "Para un sabor más intenso, sube el gofio a 55 g; para que quede más dulce, usa 60 g de azúcar. Queda muy bien con un hilo de miel de palma por encima.",
+  },
+  {
     id: "vainilla",
     nombre: "Vainilla clásico",
     tipo: "Helado",
