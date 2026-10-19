@@ -7,11 +7,22 @@
   <title>Recetas Ninja CREAMi</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f7f5f0'/><text x='50' y='72' font-size='70' text-anchor='middle' font-family='Georgia,serif' fill='%231f1d1a'>R</text></svg>">
   <link rel="stylesheet" href="style.css">
+  <script>
+    // Aplica el tema guardado antes de pintar la página, para que no parpadee
+    try {
+      const tema = localStorage.getItem("tema");
+      if (tema) document.documentElement.dataset.tema = tema;
+    } catch (e) {}
+  </script>
 </head>
 <body>
   <header class="cabecera">
     <a href="#" class="titulo">Recetas Ninja CREAMi</a>
     <p class="subtitulo">Helados y sorbetes caseros</p>
+    <div class="tema" aria-label="Tema">
+      <button data-tema="claro">Claro</button>
+      <button data-tema="oscuro">Oscuro</button>
+    </div>
   </header>
 
   <main id="app"></main>

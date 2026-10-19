@@ -295,5 +295,26 @@ function router() {
   window.scrollTo(0, 0);
 }
 
+// Selector de tema claro / oscuro. Si no se ha elegido ninguno, se sigue el del sistema.
+const temaSistema = window.matchMedia("(prefers-color-scheme: dark)");
+function pintarTema() {
+  const tema = document.documentElement.dataset.tema || (temaSistema.matches ? "oscuro" : "claro");
+  document.querySelectorAll(".tema button").forEach((b) => b.classList.toggle("activo", b.dataset.tema === tema));
+  document.querySelector('meta[name="theme-color"]').content = getComputedStyle(document.documentElement)
+    .getPropertyValue("--papel")
+    .trim();
+}
+document.querySelectorAll(".tema button").forEach((b) => {
+  b.onclick = () => {
+    document.documentElement.dataset.tema = b.dataset.tema;
+    try {
+      localStorage.setItem("tema", b.dataset.tema);
+    } catch (e) {}
+    pintarTema();
+  };
+});
+temaSistema.addEventListener("change", pintarTema);
+pintarTema();
+
 window.addEventListener("hashchange", router);
 router();

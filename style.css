@@ -8,13 +8,24 @@
   --sans: -apple-system, "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
 }
 
+/* Tema oscuro: se activa con el selector, o según el sistema si no se ha elegido ninguno */
+:root[data-tema="oscuro"] {
+  --papel: #181715;
+  --tinta: #e9e5dc;
+  --gris: #9b958a;
+  --linea: #34312c;
+  --acento: #d98b6f;
+  color-scheme: dark;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-tema="claro"]) {
     --papel: #181715;
     --tinta: #e9e5dc;
     --gris: #9b958a;
     --linea: #34312c;
     --acento: #d98b6f;
+    color-scheme: dark;
   }
 }
 
@@ -375,3 +386,32 @@ main {
 .botes button.activo { background: var(--tinta); border-color: var(--tinta); color: var(--papel); }
 
 .aviso { margin: 0 0 8px; font-size: 0.9rem; font-style: italic; color: var(--gris); }
+
+/* Selector de tema */
+.cabecera { position: relative; }
+.tema {
+  position: absolute;
+  top: 28px;
+  right: 16px;
+  display: flex;
+  border: 1px solid var(--linea);
+}
+.tema button {
+  padding: 6px 10px;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gris);
+  background: none;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+}
+.tema button + button { border-left: 1px solid var(--linea); }
+.tema button.activo { background: var(--tinta); color: var(--papel); }
+.cabecera .titulo { padding-right: 150px; }
+@media (max-width: 480px) {
+  .tema { position: static; display: inline-flex; margin-top: 14px; }
+  .cabecera .titulo { padding-right: 0; }
+}
