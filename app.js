@@ -16,7 +16,7 @@ function lista() {
     <details class="guia">
       <summary>Notas de uso</summary>
       <ol>
-        <li>Los ajustes de la Mambo son para la jarra con cuchillas, sin mariposa y con el cubilete puesto. "—" en temperatura significa sin calor.</li>
+        <li>Las cantidades están en gramos para pesarlas directamente en la báscula de la Mambo. "—" en temperatura significa sin calor.</li>
         <li>Llena el vaso de la CREAMi solo hasta la línea MAX.</li>
         <li>Congela 24 horas en una superficie plana.</li>
         <li>Si sale arenoso, añade una cucharada de leche y usa RE-SPIN.</li>
