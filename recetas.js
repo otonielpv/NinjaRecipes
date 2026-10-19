@@ -141,13 +141,15 @@ const RECETAS = [
     ingredientes: [
       "250 g de leche semidesnatada",
       "100 g de nata para montar (35% MG)",
-      "4 barritas de Kinder Chocolate (50 g), troceadas",
+      "4 barritas de Kinder Chocolate (50 g)",
       "40 g de azúcar",
       "1 pizca de sal",
       "Para el MIX-IN: 1 Kinder Bueno (2 barritas)",
     ],
     pasos: [
-      pesar("la leche y las barritas de Kinder Chocolate troceadas"),
+      "Pon las barritas de Kinder Chocolate enteras en la jarra de la Mambo.",
+      mambo("Pica el chocolate. Si quedan trozos grandes, baja con la espátula lo que se pegue a las paredes y repite.", { tiempo: "5 s", temp: "—", vel: "7" }),
+      pesar("la leche encima del chocolate picado"),
       mambo("Calienta para derretir el chocolate en la leche.", { tiempo: "3 min", temp: "50 °C", vel: "2" }),
       "Añade la nata, el azúcar y la sal.",
       mambo("Mezcla hasta que el azúcar se disuelva.", { tiempo: "20 s", temp: "—", vel: "4" }),
@@ -155,7 +157,7 @@ const RECETAS = [
       congelar(),
       creami("ICE CREAM"),
       respin(),
-      creami("MIX-IN", "Haz un hueco en el centro, añade el Kinder Bueno troceado y procesa."),
+      creami("MIX-IN", "Parte el Kinder Bueno con las manos en trocitos, haz un hueco en el centro del helado, añádelos y procesa."),
     ],
   },
   {
