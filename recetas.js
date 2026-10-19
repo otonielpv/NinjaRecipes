@@ -7,6 +7,10 @@
 //   - congelar en el vaso de la CREAMi: congelar()
 //   - un programa de la CREAMi:       creami("ICE CREAM")  o  creami("MIX-IN", "Texto")
 //   - repasar si queda polvoso:       respin()
+//
+// Para que un paso muestre las cantidades que se usan en él, envuélvelo con con(paso, ...números),
+// donde los números son las posiciones de esos ingredientes en la lista (empezando por 0):
+//   con("Añade la leche y la nata.", 1, 2)
 
 const mambo = (texto, ajustes) => ({ texto, mambo: ajustes });
 const congelar = () => ({
@@ -19,6 +23,7 @@ const creami = (programa, texto) => ({
 });
 const respin = () =>
   creami("RE-SPIN", "Si queda polvoso, añade 1-2 cucharadas de leche y repasa con RE-SPIN una o dos veces.");
+const con = (paso, ...ingredientes) => ({ ...(typeof paso === "string" ? { texto: paso } : paso), con: ingredientes });
 const pesar = (que) => `Pon el vaso de la Mambo en la báscula y pesa ${que}.`;
 
 const RECETAS = [
@@ -35,9 +40,9 @@ const RECETAS = [
       "1 pizca de sal",
     ],
     pasos: [
-      pesar("el mango troceado"),
+      con(pesar("el mango troceado"), 0),
       mambo("Tritura el mango. Si quedan trozos, da unos segundos más a velocidad 7-8 hasta que el puré quede fino.", { tiempo: "20-30 s", temp: "—", vel: "5-6" }),
-      "Añade la leche, la nata, el azúcar y la sal.",
+      con("Añade la leche, la nata, el azúcar y la sal.", 1, 2, 3, 4),
       mambo("Mezcla hasta que el azúcar se disuelva.", { tiempo: "15-20 s", temp: "—", vel: "4" }),
       congelar(),
       creami("ICE CREAM", "Quita la tapa, monta el vaso en la CREAMi y procesa. Para un sabor más afrutado, usa SORBET en lugar de ICE CREAM."),
@@ -58,7 +63,7 @@ const RECETAS = [
       "1 pizca de sal",
     ],
     pasos: [
-      pesar("todos los ingredientes"),
+      con(pesar("todos los ingredientes"), 0, 1, 2, 3, 4, 5),
       mambo("Mezcla hasta integrar el gofio sin grumos. Si hace falta, rasca las paredes y repite 15 segundos.", { tiempo: "30 s", temp: "—", vel: "4" }),
       "Deja reposar la mezcla 15 minutos para que el gofio se hidrate y espese.",
       mambo("Vuelve a mezclar.", { tiempo: "10 s", temp: "—", vel: "4" }),
@@ -81,7 +86,7 @@ const RECETAS = [
       "1 pizca de sal",
     ],
     pasos: [
-      pesar("todos los ingredientes"),
+      con(pesar("todos los ingredientes"), 0, 1, 2, 3, 4),
       mambo("Mezcla hasta que el azúcar se disuelva.", { tiempo: "30 s", temp: "—", vel: "4" }),
       congelar(),
       creami("ICE CREAM"),
@@ -103,12 +108,12 @@ const RECETAS = [
       "Opcional para el MIX-IN: 40 g de chocolate troceado",
     ],
     pasos: [
-      pesar("todo menos el chocolate troceado"),
+      con(pesar("todo menos el chocolate troceado"), 0, 1, 2, 3, 4),
       mambo("Mezcla hasta que el cacao quede sin grumos. Si hace falta, rasca las paredes y repite 15 segundos.", { tiempo: "30 s", temp: "—", vel: "4" }),
       congelar(),
       creami("ICE CREAM"),
       respin(),
-      creami("MIX-IN", "Opcional: haz un hueco en el centro, añade el chocolate troceado y procesa."),
+      con(creami("MIX-IN", "Opcional: haz un hueco en el centro, añade el chocolate troceado y procesa."), 5),
     ],
   },
   {
@@ -125,12 +130,12 @@ const RECETAS = [
       "Opcional para el MIX-IN: 1 cucharada de Nutella",
     ],
     pasos: [
-      pesar("todos los ingredientes"),
+      con(pesar("todos los ingredientes"), 0, 1, 2, 3, 4),
       mambo("Mezcla hasta que la Nutella quede bien integrada. Si hace falta, rasca las paredes y repite 15 segundos.", { tiempo: "40 s", temp: "—", vel: "4" }),
       congelar(),
       creami("ICE CREAM"),
       respin(),
-      creami("MIX-IN", "Opcional: haz un hueco en el centro, añade la cucharada de Nutella y procesa."),
+      con(creami("MIX-IN", "Opcional: haz un hueco en el centro, añade la cucharada de Nutella y procesa."), 5),
     ],
   },
   {
@@ -147,17 +152,17 @@ const RECETAS = [
       "Para el MIX-IN: 1 Kinder Bueno (2 barritas)",
     ],
     pasos: [
-      "Pon las barritas de Kinder Chocolate enteras en la jarra de la Mambo.",
+      con("Pon las barritas de Kinder Chocolate enteras en la jarra de la Mambo.", 2),
       mambo("Pica el chocolate. Si quedan trozos grandes, baja con la espátula lo que se pegue a las paredes y repite.", { tiempo: "5 s", temp: "—", vel: "7" }),
-      pesar("la leche encima del chocolate picado"),
+      con(pesar("la leche encima del chocolate picado"), 0),
       mambo("Calienta para derretir el chocolate en la leche.", { tiempo: "3 min", temp: "50 °C", vel: "2" }),
-      "Añade la nata, el azúcar y la sal.",
+      con("Añade la nata, el azúcar y la sal.", 1, 3, 4),
       mambo("Mezcla hasta que el azúcar se disuelva.", { tiempo: "20 s", temp: "—", vel: "4" }),
       "Deja enfriar la mezcla antes de congelarla.",
       congelar(),
       creami("ICE CREAM"),
       respin(),
-      creami("MIX-IN", "Parte el Kinder Bueno con las manos en trocitos, haz un hueco en el centro del helado, añádelos y procesa."),
+      con(creami("MIX-IN", "Parte el Kinder Bueno con las manos en trocitos, haz un hueco en el centro del helado, añádelos y procesa."), 5),
     ],
   },
   {
@@ -174,12 +179,12 @@ const RECETAS = [
       "Para el MIX-IN: 4-5 galletas Oreo",
     ],
     pasos: [
-      pesar("todo menos las Oreo"),
+      con(pesar("todo menos las Oreo"), 0, 1, 2, 3, 4),
       mambo("Mezcla hasta que el azúcar se disuelva.", { tiempo: "30 s", temp: "—", vel: "4" }),
       congelar(),
       creami("ICE CREAM"),
       respin(),
-      creami("MIX-IN", "Haz un hueco en el centro hasta el fondo, mete las Oreo troceadas y procesa."),
+      con(creami("MIX-IN", "Haz un hueco en el centro hasta el fondo, mete las Oreo troceadas y procesa."), 5),
     ],
   },
   {
@@ -196,17 +201,17 @@ const RECETAS = [
       "Para el MIX-IN: 30 g de Maltesers",
     ],
     pasos: [
-      pesar("los Maltesers de la base"),
+      con(pesar("los Maltesers de la base"), 0),
       mambo("Pica los Maltesers. Si quedan trozos grandes, baja con la espátula lo que se pegue a las paredes y repite.", { tiempo: "5 s", temp: "—", vel: "7" }),
-      pesar("la leche encima"),
+      con(pesar("la leche encima"), 1),
       mambo("Calienta para derretir el chocolate en la leche.", { tiempo: "3 min", temp: "50 °C", vel: "2" }),
-      "Añade la nata, el azúcar y la sal.",
+      con("Añade la nata, el azúcar y la sal.", 2, 3, 4),
       mambo("Mezcla hasta que el azúcar se disuelva.", { tiempo: "20 s", temp: "—", vel: "4" }),
       "Deja enfriar la mezcla antes de congelarla.",
       congelar(),
       creami("ICE CREAM"),
       respin(),
-      creami("MIX-IN", "Parte los Maltesers por la mitad con las manos, haz un hueco en el centro del helado, añádelos y procesa."),
+      con(creami("MIX-IN", "Parte los Maltesers por la mitad con las manos, haz un hueco en el centro del helado, añádelos y procesa."), 5),
     ],
   },
   {
@@ -223,12 +228,12 @@ const RECETAS = [
       "Para el MIX-IN: 40 g de Lacasitos",
     ],
     pasos: [
-      pesar("todo menos los Lacasitos"),
+      con(pesar("todo menos los Lacasitos"), 0, 1, 2, 3, 4),
       mambo("Mezcla hasta que el azúcar se disuelva.", { tiempo: "30 s", temp: "—", vel: "4" }),
       congelar(),
       creami("ICE CREAM"),
       respin(),
-      creami("MIX-IN", "Haz un hueco en el centro del helado, añade los Lacasitos enteros y procesa. El MIX-IN ya los rompe un poco."),
+      con(creami("MIX-IN", "Haz un hueco en el centro del helado, añade los Lacasitos enteros y procesa. El MIX-IN ya los rompe un poco."), 5),
     ],
     consejo: "Echa los Lacasitos justo antes del MIX-IN: si se quedan mucho rato en el helado, el color de la cobertura se corre.",
   },
@@ -246,14 +251,14 @@ const RECETAS = [
       "Opcional para el MIX-IN: 1 cucharada de dulce de leche",
     ],
     pasos: [
-      pesar("todo menos el dulce de leche del MIX-IN"),
+      con(pesar("todo menos el dulce de leche del MIX-IN"), 0, 1, 2, 3, 4),
       mambo("Calienta un poco para que el dulce de leche se disuelva del todo.", { tiempo: "2 min", temp: "50 °C", vel: "3" }),
       "Prueba la mezcla: tiene que notarse el punto de sal. Si te sabe poco, añade otra pizca y mezcla unos segundos.",
       "Deja enfriar la mezcla antes de congelarla.",
       congelar(),
       creami("ICE CREAM"),
       respin(),
-      creami("MIX-IN", "Opcional: haz un hueco en el centro, añade la cucharada de dulce de leche y procesa. Quedan vetas de caramelo."),
+      con(creami("MIX-IN", "Opcional: haz un hueco en el centro, añade la cucharada de dulce de leche y procesa. Quedan vetas de caramelo."), 5),
     ],
   },
   {
@@ -270,15 +275,15 @@ const RECETAS = [
       "Para el MIX-IN: 3 galletas Lotus",
     ],
     pasos: [
-      "Pon en la jarra de la Mambo las galletas de la base.",
+      con("Pon en la jarra de la Mambo las galletas de la base.", 0),
       mambo("Pica las galletas hasta que queden como arena.", { tiempo: "5 s", temp: "—", vel: "7" }),
-      "Añade la leche, la nata, el azúcar y la sal.",
+      con("Añade la leche, la nata, el azúcar y la sal.", 1, 2, 3, 4),
       mambo("Mezcla bien.", { tiempo: "30 s", temp: "—", vel: "4" }),
       "Deja reposar la mezcla 10 minutos para que la galleta se empape y dé sabor.",
       congelar(),
       creami("ICE CREAM"),
       respin(),
-      creami("MIX-IN", "Parte las galletas del MIX-IN con las manos en trocitos, haz un hueco en el centro del helado, añádelos y procesa."),
+      con(creami("MIX-IN", "Parte las galletas del MIX-IN con las manos en trocitos, haz un hueco en el centro del helado, añádelos y procesa."), 5),
     ],
     consejo: "Si tienes crema Lotus para untar, añade 1 cucharada en el MIX-IN junto con las galletas.",
   },
@@ -295,9 +300,9 @@ const RECETAS = [
       "1 pizca de sal",
     ],
     pasos: [
-      pesar("las fresas"),
+      con(pesar("las fresas"), 0),
       mambo("Tritura las fresas hasta que el puré quede fino.", { tiempo: "20-30 s", temp: "—", vel: "5-6" }),
-      "Añade la leche, la nata, el azúcar y la sal.",
+      con("Añade la leche, la nata, el azúcar y la sal.", 1, 2, 3, 4),
       mambo("Mezcla hasta que el azúcar se disuelva.", { tiempo: "15-20 s", temp: "—", vel: "4" }),
       congelar(),
       creami("ICE CREAM"),
@@ -317,9 +322,9 @@ const RECETAS = [
       "1 pizca de sal",
     ],
     pasos: [
-      pesar("los plátanos troceados"),
+      con(pesar("los plátanos troceados"), 0),
       mambo("Tritura los plátanos hasta que el puré quede fino.", { tiempo: "20-30 s", temp: "—", vel: "5-6" }),
-      "Añade la leche, la nata, el azúcar y la sal.",
+      con("Añade la leche, la nata, el azúcar y la sal.", 1, 2, 3, 4),
       mambo("Mezcla hasta que quede liso.", { tiempo: "15-20 s", temp: "—", vel: "4" }),
       congelar(),
       creami("ICE CREAM"),
@@ -339,7 +344,7 @@ const RECETAS = [
       "1 pizca de sal",
     ],
     pasos: [
-      pesar("todos los ingredientes"),
+      con(pesar("todos los ingredientes"), 0, 1, 2, 3, 4),
       mambo("Mezcla hasta que el café y el azúcar se disuelvan.", { tiempo: "30 s", temp: "—", vel: "4" }),
       congelar(),
       creami("ICE CREAM"),
@@ -358,7 +363,7 @@ const RECETAS = [
       "Ralladura de 1 limón",
     ],
     pasos: [
-      pesar("todos los ingredientes"),
+      con(pesar("todos los ingredientes"), 0, 1, 2, 3),
       mambo("Mezcla hasta que el azúcar se disuelva del todo.", { tiempo: "1 min", temp: "—", vel: "4" }),
       congelar(),
       creami("SORBET"),
@@ -372,7 +377,7 @@ const RECETAS = [
     programa: "SORBET",
     ingredientes: ["1 lata de mango en almíbar (unos 425 g, con su almíbar)"],
     pasos: [
-      pesar("el mango con todo su almíbar"),
+      con(pesar("el mango con todo su almíbar"), 0),
       mambo("Tritura hasta que quede un puré fino.", { tiempo: "30 s", temp: "—", vel: "7-8" }),
       congelar(),
       creami("SORBET"),

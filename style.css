@@ -428,3 +428,19 @@ main {
 @media (max-width: 480px) {
   .titulo { font-size: 1.5rem; }
 }
+
+/* Cantidades de cada paso */
+.cantidades { border-top: 2px solid var(--tinta); padding: 12px 0 4px; margin-bottom: 20px; }
+.cantidades ul { list-style: none; margin: 0; padding: 0; }
+.cantidades li { padding: 8px 0; border-bottom: 1px solid var(--linea); font-size: 1.15rem; }
+.cantidades li:last-child { border-bottom: 0; }
+
+.cantidades-cortas {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  font-size: 0.9rem;
+  color: var(--gris);
+}
+.cantidades-cortas li { margin: 0; padding: 0; }
+.cantidades-cortas li::before { content: "— "; }

@@ -119,6 +119,13 @@ function ajustesCortos(p) {
   return "";
 }
 
+// Cantidades que se usan en un paso (ya multiplicadas por el número de botes)
+function cantidadesPaso(r, p, clase) {
+  if (!p.con) return "";
+  const items = p.con.map((i) => escalar(r.ingredientes[i].replace(/^(Opcional para el|Para el) MIX-IN: /, "")));
+  return `<ul class="${clase}">${items.map((i) => `<li>${i}</li>`).join("")}</ul>`;
+}
+
 function ingredientesHTML(r) {
   return `<ul class="ingredientes">
     ${r.ingredientes.map((i) => `<li><label><input type="checkbox"> <span>${escalar(i)}</span></label></li>`).join("")}
@@ -148,7 +155,10 @@ function detalle(r) {
           <ol class="pasos">
             ${r.pasos
               .map(paso)
-              .map((p) => `<li>${ajustesCortos(p) ? `<span class="ajuste">${ajustesCortos(p)}</span>` : ""}${textoPaso(p)}</li>`)
+              .map(
+                (p) =>
+                  `<li>${ajustesCortos(p) ? `<span class="ajuste">${ajustesCortos(p)}</span>` : ""}${textoPaso(p)}${cantidadesPaso(r, p, "cantidades-cortas")}</li>`
+              )
               .join("")}
           </ol>
           ${r.consejo ? `<p class="nota"><b>Nota.</b> ${r.consejo}</p>` : ""}
@@ -207,6 +217,7 @@ function modoPasos(r, n) {
     const p = pasos[n - 1];
     contenido = `<p class="etiqueta">Paso ${n} de ${pasos.length}</p>
       <h2 class="instruccion">${textoPaso(p)}</h2>
+      ${p.con ? `<div class="cantidades"><p class="aparato">Cantidades${botes > 1 ? ` · ${botes} botes` : ""}</p>${cantidadesPaso(r, p, "")}</div>` : ""}
       ${panel(p)}`;
   }
 

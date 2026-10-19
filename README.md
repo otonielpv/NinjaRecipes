@@ -19,6 +19,12 @@ creami("ICE CREAM"),
 creami("MIX-IN", "Haz un hueco en el centro, añade las galletas y procesa."),
 ```
 
+Para que un paso muestre las cantidades que se usan en él, envuélvelo con `con(paso, ...números)`. Los números son las posiciones de esos ingredientes en la lista, empezando por 0:
+
+```js
+con("Añade la leche y la nata.", 1, 2),
+```
+
 ## Publicación
 
 La web está en https://otonielpv.github.io/NinjaRecipes/ y se publica con GitHub Pages desde la rama `main` (Settings → Pages → rama `main`, carpeta `/ (root)`). Cada cambio que se sube a `main` aparece en la web en un par de minutos.
