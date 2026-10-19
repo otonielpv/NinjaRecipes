@@ -21,12 +21,6 @@ creami("MIX-IN", "Haz un hueco en el centro, añade las galletas y procesa."),
 
 ## Publicación
 
-La web está en https://otonielpv.github.io/NinjaRecipes/. Cada cambio en `main` se publica solo (el workflow `.github/workflows/publicar.yml` lo copia a la rama `gh-pages`, que es la que sirve GitHub Pages).
-
-## Si hubiera que configurar GitHub Pages de nuevo
-
-1. En GitHub, ve a **Settings → Pages**.
-2. En *Source* elige **Deploy from a branch**, rama `gh-pages` y carpeta `/ (root)`.
-3. Guarda. En un par de minutos estará en `https://otonielpv.github.io/NinjaRecipes/`.
+La web está en https://otonielpv.github.io/NinjaRecipes/ y se publica con GitHub Pages desde la rama `main` (Settings → Pages → rama `main`, carpeta `/ (root)`). Cada cambio que se sube a `main` aparece en la web en un par de minutos.
 
 Truco: en el móvil, abre la web y usa "Añadir a pantalla de inicio" para tenerla como una app.
