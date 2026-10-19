@@ -1,7 +1,22 @@
-// Recetas para Ninja CREAMi (vaso estándar de ~470 ml).
+// Recetas para Ninja CREAMi (vaso estándar de ~470 ml), con la base preparada en la Cecotec Mambo.
+//
 // Para añadir una receta nueva, copia uno de los bloques { ... } y cambia los datos.
-// - programa: el botón de la Creami (ICE CREAM, LITE ICE CREAM, SORBET, GELATO...)
-// - mixin: opcional, lo que se añade al final con el programa MIX-IN
+// Cada paso puede ser:
+//   - un texto normal:                "Deja enfriar la mezcla."
+//   - un paso de Mambo:               mambo("Texto", { tiempo: "1 min", temp: "40 °C", vel: "4" })
+//   - congelar en el vaso de la CREAMi: congelar()
+//   - un programa de la CREAMi:       creami("ICE CREAM")  o  creami("MIX-IN", "Texto")
+
+const mambo = (texto, ajustes) => ({ texto, mambo: ajustes });
+const congelar = () => ({
+  texto: "Vierte la mezcla en el vaso de la CREAMi hasta la línea MAX, tapa y congela en una superficie plana.",
+  espera: "24 h",
+});
+const creami = (programa, texto) => ({
+  texto: texto || "Quita la tapa, monta el vaso en la CREAMi y procesa.",
+  creami: programa,
+});
+const enfriar = "Deja enfriar la mezcla a temperatura ambiente (o en la nevera) antes de congelarla.";
 
 const RECETAS = [
   {
@@ -10,18 +25,17 @@ const RECETAS = [
     tipo: "Helado",
     programa: "ICE CREAM",
     ingredientes: [
-      "1 cucharada de queso crema (15 g), a temperatura ambiente",
+      "1 cucharada de queso crema (15 g)",
       "65 g de azúcar",
       "1 cucharadita de extracto de vainilla",
       "180 ml de nata para montar (35% MG)",
       "240 ml de leche entera",
     ],
     pasos: [
-      "Calienta el queso crema 10 segundos en el microondas para ablandarlo.",
-      "Mézclalo con el azúcar y la vainilla hasta que quede una crema sin grumos.",
-      "Añade la nata y la leche y bate hasta que el azúcar se disuelva.",
-      "Vierte en el vaso hasta la línea MAX, tapa y congela 24 h en una superficie plana.",
-      "Quita la tapa, monta el vaso en la Creami y usa el programa ICE CREAM.",
+      mambo("Pon todos los ingredientes en la jarra de la Mambo.", { tiempo: "1 min", temp: "40 °C", vel: "4" }),
+      enfriar,
+      congelar(),
+      creami("ICE CREAM"),
     ],
     consejo: "Es la base perfecta para otros sabores: añade galletas, chocolate troceado o fruta con MIX-IN.",
   },
@@ -37,15 +51,15 @@ const RECETAS = [
       "1 cucharadita de extracto de vainilla",
       "180 ml de nata para montar",
       "240 ml de leche entera",
+      "Opcional para el MIX-IN: 40 g de chocolate negro troceado",
     ],
     pasos: [
-      "Ablanda el queso crema 10 segundos en el microondas.",
-      "Mezcla el queso con el azúcar, el cacao y la vainilla hasta formar una pasta.",
-      "Añade la nata y la leche poco a poco, batiendo para que no queden grumos de cacao.",
-      "Vierte en el vaso hasta la línea MAX, tapa y congela 24 h.",
-      "Procesa con el programa ICE CREAM.",
+      mambo("Pon en la jarra todo menos el chocolate troceado. El calor ayuda a que el cacao se disuelva sin grumos.", { tiempo: "3 min", temp: "60 °C", vel: "3" }),
+      enfriar,
+      congelar(),
+      creami("ICE CREAM"),
+      creami("MIX-IN", "Opcional: haz un hueco en el centro, añade el chocolate troceado y procesa."),
     ],
-    mixin: "Opcional: 40 g de chocolate negro troceado con MIX-IN.",
   },
   {
     id: "nutella",
@@ -58,14 +72,16 @@ const RECETAS = [
       "150 ml de nata para montar",
       "250 ml de leche entera",
       "1 pizca de sal",
+      "Para el MIX-IN: 1 cucharada de Nutella y un puñado de avellanas tostadas",
     ],
     pasos: [
-      "Calienta un poco la leche (sin que hierva) y mézclala con la Nutella hasta que se integre del todo.",
-      "Añade el azúcar, la sal y la nata y bate bien (con batidora de mano queda perfecto).",
-      "Deja enfriar, vierte en el vaso hasta la línea MAX, tapa y congela 24 h.",
-      "Procesa con el programa ICE CREAM.",
+      mambo("Pon en la jarra la leche, la Nutella, el azúcar y la sal.", { tiempo: "4 min", temp: "60 °C", vel: "3" }),
+      mambo("Añade la nata y mezcla.", { tiempo: "20 s", temp: "—", vel: "3" }),
+      enfriar,
+      congelar(),
+      creami("ICE CREAM"),
+      creami("MIX-IN", "Haz un hueco en el centro, añade la cucharada de Nutella y las avellanas troceadas y procesa."),
     ],
-    mixin: "Haz un hueco en el centro y añade 1 cucharada de Nutella y un puñado de avellanas tostadas troceadas. Usa MIX-IN.",
   },
   {
     id: "kinder",
@@ -73,7 +89,7 @@ const RECETAS = [
     tipo: "Helado",
     programa: "ICE CREAM",
     ingredientes: [
-      "4 barritas de Kinder Chocolate (50 g)",
+      "4 barritas de Kinder Chocolate (50 g), troceadas",
       "1 cucharada de queso crema (15 g)",
       "40 g de azúcar",
       "150 ml de nata para montar",
@@ -81,13 +97,13 @@ const RECETAS = [
       "Para el MIX-IN: 1 Kinder Bueno (2 barritas)",
     ],
     pasos: [
-      "Calienta 100 ml de la leche y derrite en ella las barritas de Kinder Chocolate, removiendo.",
-      "Ablanda el queso crema 10 segundos y mézclalo con el azúcar.",
-      "Junta todo con el resto de la leche y la nata y bate bien.",
-      "Deja enfriar, vierte en el vaso hasta la línea MAX, tapa y congela 24 h.",
-      "Procesa con el programa ICE CREAM.",
+      mambo("Pon en la jarra la leche, el Kinder Chocolate troceado, el queso crema y el azúcar.", { tiempo: "4 min", temp: "60 °C", vel: "3" }),
+      mambo("Añade la nata y mezcla.", { tiempo: "20 s", temp: "—", vel: "3" }),
+      enfriar,
+      congelar(),
+      creami("ICE CREAM"),
+      creami("MIX-IN", "Haz un hueco en el centro, añade el Kinder Bueno troceado y procesa."),
     ],
-    mixin: "Haz un hueco en el centro, añade el Kinder Bueno troceado y usa MIX-IN.",
   },
   {
     id: "oreo",
@@ -103,13 +119,13 @@ const RECETAS = [
       "Para el MIX-IN: 4-5 galletas Oreo troceadas",
     ],
     pasos: [
-      "Ablanda el queso crema 10 segundos en el microondas y mézclalo con el azúcar y la vainilla.",
-      "Añade la nata y la leche y bate hasta que el azúcar se disuelva.",
-      "Vierte en el vaso hasta la línea MAX, tapa y congela 24 h.",
-      "Procesa con el programa ICE CREAM.",
+      mambo("Pon en la jarra todo menos las Oreo.", { tiempo: "1 min", temp: "40 °C", vel: "4" }),
+      enfriar,
+      congelar(),
+      creami("ICE CREAM"),
+      creami("MIX-IN", "Haz un hueco en el centro hasta el fondo, mete las Oreo troceadas y procesa."),
     ],
-    mixin: "Haz un hueco en el centro hasta el fondo, mete las Oreo troceadas y usa MIX-IN.",
-    consejo: "Para un helado más 'gris' y con más sabor a galleta, tritura 2 Oreo extra con la mezcla antes de congelar.",
+    consejo: "Para un helado con más sabor a galleta, añade 2 Oreo extra a la jarra en el primer paso.",
   },
   {
     id: "fresa",
@@ -124,12 +140,11 @@ const RECETAS = [
       "100 ml de leche entera",
     ],
     pasos: [
-      "Tritura las fresas con el azúcar y el zumo de limón hasta que quede un puré fino.",
-      "Añade la nata y la leche y mezcla bien.",
-      "Vierte en el vaso hasta la línea MAX, tapa y congela 24 h.",
-      "Procesa con el programa ICE CREAM.",
+      mambo("Pon en la jarra las fresas, el azúcar y el zumo de limón y tritura.", { tiempo: "1 min", temp: "—", vel: "8" }),
+      mambo("Añade la nata y la leche y mezcla.", { tiempo: "20 s", temp: "—", vel: "4" }),
+      congelar(),
+      creami("ICE CREAM"),
     ],
-    mixin: "Opcional: unas galletas tipo María troceadas o trocitos de fresa con MIX-IN.",
   },
   {
     id: "cafe",
@@ -144,11 +159,10 @@ const RECETAS = [
       "240 ml de leche entera",
     ],
     pasos: [
-      "Ablanda el queso crema 10 segundos en el microondas.",
-      "Mézclalo con el azúcar y el café soluble.",
-      "Añade la nata y la leche y bate hasta que el café y el azúcar se disuelvan.",
-      "Vierte en el vaso hasta la línea MAX, tapa y congela 24 h.",
-      "Procesa con el programa ICE CREAM.",
+      mambo("Pon todos los ingredientes en la jarra.", { tiempo: "1 min", temp: "40 °C", vel: "4" }),
+      enfriar,
+      congelar(),
+      creami("ICE CREAM"),
     ],
   },
   {
@@ -163,11 +177,11 @@ const RECETAS = [
       "1 cucharada de miel o 20 g de azúcar",
     ],
     pasos: [
-      "Tritura los plátanos con la leche, la nata y la miel hasta que quede liso.",
-      "Vierte en el vaso hasta la línea MAX, tapa y congela 24 h.",
-      "Procesa con el programa ICE CREAM.",
+      mambo("Pon todos los ingredientes en la jarra y tritura hasta que quede liso.", { tiempo: "1 min", temp: "—", vel: "6" }),
+      congelar(),
+      creami("ICE CREAM"),
     ],
-    mixin: "Queda genial con nueces o chocolate troceado con MIX-IN.",
+    consejo: "Queda muy bien con nueces o chocolate troceado añadidos con MIX-IN.",
   },
   {
     id: "proteico-chocolate",
@@ -182,12 +196,12 @@ const RECETAS = [
       "1 pizca de sal",
     ],
     pasos: [
-      "Bate todo muy bien (mejor con batidora) hasta que no queden grumos.",
+      mambo("Pon todos los ingredientes en la jarra.", { tiempo: "30 s", temp: "—", vel: "5" }),
       "Deja reposar 5 minutos para que baje la espuma.",
-      "Vierte en el vaso hasta la línea MAX, tapa y congela 24 h.",
-      "Procesa con el programa LITE ICE CREAM.",
+      congelar(),
+      creami("LITE ICE CREAM"),
+      creami("RE-SPIN", "Casi siempre sale arenoso la primera vez: añade 1-2 cucharadas de leche y repasa. Repite si hace falta."),
     ],
-    consejo: "Casi siempre sale arenoso la primera vez: añade 1-2 cucharadas de leche y usa RE-SPIN una o dos veces.",
   },
   {
     id: "limon",
@@ -201,10 +215,11 @@ const RECETAS = [
       "280 ml de agua",
     ],
     pasos: [
-      "Calienta el agua con el azúcar hasta que se disuelva y deja enfriar.",
-      "Añade el zumo y la ralladura de limón y mezcla.",
-      "Vierte en el vaso hasta la línea MAX, tapa y congela 24 h.",
-      "Procesa con el programa SORBET.",
+      mambo("Pon en la jarra el agua, el azúcar y la ralladura para hacer el almíbar.", { tiempo: "5 min", temp: "80 °C", vel: "2" }),
+      "Deja enfriar el almíbar.",
+      mambo("Añade el zumo de limón y mezcla.", { tiempo: "10 s", temp: "—", vel: "3" }),
+      congelar(),
+      creami("SORBET"),
     ],
   },
   {
@@ -217,9 +232,9 @@ const RECETAS = [
       "1 cucharada de zumo de lima o limón",
     ],
     pasos: [
-      "Tritura el mango con todo su almíbar y el zumo de lima.",
-      "Vierte en el vaso hasta la línea MAX, tapa y congela 24 h.",
-      "Procesa con el programa SORBET.",
+      mambo("Pon en la jarra el mango con todo su almíbar y el zumo y tritura.", { tiempo: "1 min", temp: "—", vel: "8" }),
+      congelar(),
+      creami("SORBET"),
     ],
     consejo: "El mismo truco funciona con piña o melocotón en almíbar.",
   },

@@ -10,6 +10,15 @@ Abre `index.html` en el navegador.
 
 Edita `recetas.js`, copia uno de los bloques `{ ... }` y cambia los datos (el `id` tiene que ser único, sin espacios).
 
+Los pasos pueden ser texto normal o llevar ajustes, que se muestran en grande en el modo paso a paso:
+
+```js
+mambo("Pon todo en la jarra.", { tiempo: "1 min", temp: "40 °C", vel: "4" }),
+congelar(),
+creami("ICE CREAM"),
+creami("MIX-IN", "Haz un hueco en el centro, añade las galletas y procesa."),
+```
+
 ## Publicarla gratis con GitHub Pages
 
 1. En GitHub, ve a **Settings → Pages**.
