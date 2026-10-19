@@ -56,7 +56,10 @@ function lista() {
   const tipos = ["Todas", ...new Set(RECETAS.map((r) => r.tipo))];
   app.innerHTML = `
     <div class="herramientas">
-      <input id="buscar" type="search" placeholder="Buscar receta o ingrediente" value="${filtro.texto}">
+      <label class="buscador">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+        <input id="buscar" type="search" placeholder="Buscar receta o ingrediente" value="${filtro.texto}" aria-label="Buscar receta o ingrediente">
+      </label>
       <nav class="filtros">
         ${tipos.map((t) => `<button class="${t === filtro.tipo ? "activo" : ""}" data-tipo="${t}">${t}</button>`).join("")}
       </nav>
@@ -292,8 +295,23 @@ function router() {
     else lista();
   }
   document.title = receta ? `${receta.nombre} · Recetas Ninja CREAMi` : "Recetas Ninja CREAMi";
-  window.scrollTo(0, 0);
+  // Solo al cambiar de pantalla, y nunca al cargar: en iOS, mover el scroll durante la carga
+  // puede dejar la cabecera escondida bajo la barra del navegador.
+  if (!primeraCarga && window.scrollY > 0) window.scrollTo(0, 0);
+  primeraCarga = false;
 }
+let primeraCarga = true;
+
+// Lupa de la cabecera: va al índice (si hace falta) y pone el cursor en el buscador
+document.getElementById("lupa").onclick = () => {
+  if (!document.getElementById("buscar")) {
+    history.pushState(null, "", location.pathname + location.search);
+    router();
+  }
+  const buscar = document.getElementById("buscar");
+  buscar.scrollIntoView({ block: "center" });
+  buscar.focus();
+};
 
 // Selector de tema claro / oscuro. Si no se ha elegido ninguno, se sigue el del sistema.
 const temaSistema = window.matchMedia("(prefers-color-scheme: dark)");

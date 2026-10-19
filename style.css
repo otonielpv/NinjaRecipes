@@ -31,10 +31,6 @@
 
 * { box-sizing: border-box; }
 
-/* Evita que al hacer scroll hacia arriba el navegador recargue la página (pull-to-refresh) */
-html,
-body { overscroll-behavior-y: none; }
-
 body {
   margin: 0;
   background: var(--papel);
@@ -83,20 +79,31 @@ main {
   padding: 16px 0 8px;
 }
 
+.buscador {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border: 1px solid var(--linea);
+  color: var(--gris);
+  background: var(--papel);
+}
+.buscador:focus-within { border-color: var(--tinta); color: var(--tinta); }
+.buscador svg { flex: none; }
+
 #buscar {
-  width: 100%;
-  padding: 8px 0;
+  flex: 1;
+  min-width: 0;
+  padding: 11px 0;
   font: inherit;
   font-size: 1rem;
   color: var(--tinta);
   background: transparent;
   border: 0;
-  border-bottom: 1px solid var(--linea);
   border-radius: 0;
   outline: none;
   -webkit-appearance: none;
 }
-#buscar:focus { border-bottom-color: var(--tinta); }
 #buscar::placeholder { color: var(--gris); font-style: italic; }
 
 .filtros {
@@ -391,16 +398,17 @@ main {
 
 .aviso { margin: 0 0 8px; font-size: 0.9rem; font-style: italic; color: var(--gris); }
 
-/* Selector de tema */
-.cabecera { position: relative; }
-.tema {
-  position: absolute;
-  top: 28px;
-  right: 16px;
-  display: flex;
-  border: 1px solid var(--linea);
+/* Cabecera: título a la izquierda, botones arriba a la derecha */
+.cabecera {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  column-gap: 12px;
 }
-.tema button {
+.cabecera .subtitulo { grid-column: 1 / -1; }
+.acciones { display: flex; gap: 8px; flex: none; }
+.tema { display: flex; }
+.icono {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -409,22 +417,14 @@ main {
   padding: 0;
   color: var(--gris);
   background: none;
-  border: 0;
+  border: 1px solid var(--linea);
   border-radius: 0;
   cursor: pointer;
 }
-.tema button + button { border-left: 1px solid var(--linea); }
-.tema button.activo { background: var(--tinta); color: var(--papel); }
-.tema svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.cabecera .titulo { padding-right: 90px; }
+.icono:hover { color: var(--tinta); }
+.tema .icono + .icono { border-left: 0; }
+.tema .icono.activo { background: var(--tinta); border-color: var(--tinta); color: var(--papel); }
+
 @media (max-width: 480px) {
-  .titulo { font-size: 1.65rem; }
+  .titulo { font-size: 1.5rem; }
 }
