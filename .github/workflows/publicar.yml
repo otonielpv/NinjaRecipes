@@ -1,0 +1,18 @@
+# Copia main a la rama gh-pages en cada cambio, para que GitHub Pages publique la web.
+name: Publicar web
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git push --force origin HEAD:gh-pages
