@@ -3,6 +3,55 @@ let filtro = { texto: "", tipo: "Todas" };
 
 const paso = (p) => (typeof p === "string" ? { texto: p } : p);
 
+// Número de botes de la CREAMi para los que se calculan las cantidades (las recetas son para 1)
+let botes = 1;
+try {
+  botes = parseInt(localStorage.getItem("botes"), 10) || 1;
+} catch (e) {}
+
+const formatear = (x) => (Number.isInteger(x) ? String(x) : x.toFixed(1).replace(".", ","));
+
+// Multiplica todas las cantidades de un ingrediente (menos los porcentajes, como "35% MG")
+function escalar(texto) {
+  if (botes === 1) return texto;
+  return texto
+    .replace(/\b1 (pizca|cucharada|cucharadita|lata)\b/g, "1 $1s")
+    .replace(/\b1 limón/g, "1 limones")
+    .replace(/\d+(?:[.,]\d+)?(?![\d.,]|\s*%)/g, (num) => formatear(parseFloat(num.replace(",", ".")) * botes));
+}
+
+function textoPaso(p) {
+  if (botes > 1 && p.espera) {
+    return `Reparte la mezcla a partes iguales en los ${botes} vasos de la CREAMi, sin pasar la línea MAX FILL, tapa y congélalos completamente planos.`;
+  }
+  if (botes > 1 && p.creami) return `${p.texto} Hazlo con cada vaso.`;
+  return p.texto;
+}
+
+function selectorBotes() {
+  return `<div class="botes">
+    <span>Botes</span>
+    ${[1, 2, 3, 4].map((n) => `<button data-botes="${n}" class="${n === botes ? "activo" : ""}">${n}</button>`).join("")}
+  </div>
+  ${
+    botes > 1
+      ? `<p class="aviso">Cantidades para ${botes} botes. Prepara toda la mezcla de una vez en la Mambo (con más cantidad puede necesitar unos segundos más) y repártela entre los vasos.</p>`
+      : ""
+  }`;
+}
+
+function activarSelector(alCambiar) {
+  app.querySelectorAll("[data-botes]").forEach((b) => {
+    b.onclick = () => {
+      botes = parseInt(b.dataset.botes, 10);
+      try {
+        localStorage.setItem("botes", botes);
+      } catch (e) {}
+      alCambiar();
+    };
+  });
+}
+
 function lista() {
   const tipos = ["Todas", ...new Set(RECETAS.map((r) => r.tipo))];
   app.innerHTML = `
@@ -69,7 +118,7 @@ function ajustesCortos(p) {
 
 function ingredientesHTML(r) {
   return `<ul class="ingredientes">
-    ${r.ingredientes.map((i) => `<li><label><input type="checkbox"> <span>${i}</span></label></li>`).join("")}
+    ${r.ingredientes.map((i) => `<li><label><input type="checkbox"> <span>${escalar(i)}</span></label></li>`).join("")}
   </ul>`;
 }
 
@@ -87,6 +136,7 @@ function detalle(r) {
       <div class="cuerpo">
         <section>
           <h2>Ingredientes</h2>
+          ${selectorBotes()}
           ${ingredientesHTML(r)}
         </section>
 
@@ -95,7 +145,7 @@ function detalle(r) {
           <ol class="pasos">
             ${r.pasos
               .map(paso)
-              .map((p) => `<li>${ajustesCortos(p) ? `<span class="ajuste">${ajustesCortos(p)}</span>` : ""}${p.texto}</li>`)
+              .map((p) => `<li>${ajustesCortos(p) ? `<span class="ajuste">${ajustesCortos(p)}</span>` : ""}${textoPaso(p)}</li>`)
               .join("")}
           </ol>
           ${r.consejo ? `<p class="nota"><b>Nota.</b> ${r.consejo}</p>` : ""}
@@ -103,6 +153,7 @@ function detalle(r) {
       </div>
     </article>
   `;
+  activarSelector(() => detalle(r));
 }
 
 // Panel grande con los ajustes del paso actual
@@ -142,6 +193,7 @@ function modoPasos(r, n) {
   if (n === 0) {
     contenido = `<p class="etiqueta">Antes de empezar</p>
       <h2 class="instruccion">Prepara los ingredientes</h2>
+      ${selectorBotes()}
       ${ingredientesHTML(r)}`;
   } else if (n === total) {
     contenido = `<p class="etiqueta">Terminado</p>
@@ -151,7 +203,7 @@ function modoPasos(r, n) {
   } else {
     const p = pasos[n - 1];
     contenido = `<p class="etiqueta">Paso ${n} de ${pasos.length}</p>
-      <h2 class="instruccion">${p.texto}</h2>
+      <h2 class="instruccion">${textoPaso(p)}</h2>
       ${panel(p)}`;
   }
 
@@ -159,7 +211,7 @@ function modoPasos(r, n) {
     <div class="modo">
       <div class="modo-cabecera">
         <a href="#${r.id}" class="volver">✕ Salir</a>
-        <span class="modo-nombre">${r.nombre}</span>
+        <span class="modo-nombre">${r.nombre}${botes > 1 ? ` · ${botes} botes` : ""}</span>
       </div>
       <div class="progreso"><span style="width:${(n / total) * 100}%"></span></div>
       <div class="modo-paso">${contenido}</div>
@@ -174,6 +226,7 @@ function modoPasos(r, n) {
     </div>
   `;
 
+  if (n === 0) activarSelector(() => modoPasos(r, 0));
   const ir = (m) => location.replace(`#${r.id}/${m}`);
   document.getElementById("anterior").onclick = () => ir(n - 1);
   const sig = document.getElementById("siguiente");

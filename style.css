@@ -347,3 +347,31 @@ main {
   .instruccion { font-size: 2rem; }
   .panel dd { font-size: 2.4rem; }
 }
+
+/* Selector de número de botes */
+.botes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 12px;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+.botes span { margin-right: 6px; }
+.botes button {
+  width: 40px;
+  height: 36px;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--tinta);
+  background: none;
+  border: 1px solid var(--linea);
+  border-radius: 0;
+  cursor: pointer;
+}
+.botes button.activo { background: var(--tinta); border-color: var(--tinta); color: var(--papel); }
+
+.aviso { margin: 0 0 8px; font-size: 0.9rem; font-style: italic; color: var(--gris); }
