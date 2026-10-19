@@ -1,22 +1,20 @@
 :root {
-  --fondo: #fff8f3;
-  --tarjeta: #ffffff;
-  --texto: #3b2a2f;
-  --suave: #8a767b;
-  --acento: #e0577f;
-  --rosa: #fde3ea;
-  --borde: #f1dfe3;
+  --papel: #f7f5f0;
+  --tinta: #1f1d1a;
+  --gris: #6f6a62;
+  --linea: #d9d4ca;
+  --acento: #8c2f1f;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --sans: -apple-system, "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --fondo: #1d1719;
-    --tarjeta: #2a2124;
-    --texto: #f5eaed;
-    --suave: #b39ea4;
-    --acento: #ff86a8;
-    --rosa: #3d2a30;
-    --borde: #3a2d31;
+    --papel: #181715;
+    --tinta: #e9e5dc;
+    --gris: #9b958a;
+    --linea: #34312c;
+    --acento: #d98b6f;
   }
 }
 
@@ -24,128 +22,206 @@
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  background: var(--fondo);
-  color: var(--texto);
-  font-size: 17px;
-  line-height: 1.5;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
 }
 
-header {
-  background: var(--rosa);
-  padding: 14px 16px;
-  position: sticky;
-  top: 0;
-  z-index: 1;
+a { color: inherit; }
+
+.cabecera {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 16px 16px;
+  border-bottom: 2px solid var(--tinta);
 }
 
 .titulo {
-  display: block;
-  max-width: 720px;
-  margin: 0 auto;
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: var(--texto);
+  font-size: 1.9rem;
+  font-weight: normal;
+  letter-spacing: -0.01em;
   text-decoration: none;
+  display: block;
+  line-height: 1.1;
+}
+
+.subtitulo {
+  margin: 6px 0 0;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gris);
 }
 
 main {
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 16px 16px 48px;
+  padding: 0 16px 64px;
 }
 
-/* Guía */
-.guia {
-  background: var(--tarjeta);
-  border: 1px solid var(--borde);
-  border-radius: 14px;
-  padding: 12px 16px;
-  margin-bottom: 14px;
+/* Índice */
+.herramientas {
+  padding: 16px 0 8px;
 }
-.guia summary { cursor: pointer; font-weight: 600; }
-.guia ol { margin: 10px 0 0; padding-left: 20px; }
 
-/* Buscador y filtros */
 #buscar {
   width: 100%;
-  padding: 12px 14px;
+  padding: 8px 0;
+  font: inherit;
   font-size: 1rem;
-  border: 1px solid var(--borde);
-  border-radius: 12px;
-  background: var(--tarjeta);
-  color: var(--texto);
+  color: var(--tinta);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--linea);
+  border-radius: 0;
+  outline: none;
+  -webkit-appearance: none;
 }
+#buscar:focus { border-bottom-color: var(--tinta); }
+#buscar::placeholder { color: var(--gris); font-style: italic; }
 
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
-.chip {
-  border: 1px solid var(--borde);
-  background: var(--tarjeta);
-  color: var(--texto);
-  padding: 7px 14px;
-  border-radius: 999px;
-  font-size: 0.95rem;
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin-top: 12px;
+}
+.filtros button {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gris);
+  background: none;
+  border: 0;
+  padding: 6px 0;
   cursor: pointer;
 }
-.chip.activo { background: var(--acento); border-color: var(--acento); color: #fff; }
-
-/* Lista */
-.recetas {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+.filtros button.activo {
+  color: var(--tinta);
+  text-decoration: underline;
+  text-underline-offset: 5px;
 }
 
-.tarjeta {
+.indice {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  counter-reset: receta;
+}
+.indice li { border-top: 1px solid var(--linea); counter-increment: receta; }
+.indice li:last-child { border-bottom: 1px solid var(--linea); }
+.indice a {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 14px;
-  padding: 14px;
-  background: var(--tarjeta);
-  border: 1px solid var(--borde);
-  border-radius: 14px;
-  color: var(--texto);
+  padding: 14px 0;
   text-decoration: none;
 }
-.tarjeta:active { transform: scale(0.98); }
-.tarjeta .emoji { font-size: 2rem; }
-.tarjeta small { display: block; color: var(--suave); font-size: 0.85rem; }
-.vacio { color: var(--suave); }
+.indice a::before {
+  content: counter(receta, decimal-leading-zero);
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  color: var(--gris);
+  min-width: 1.6em;
+}
+.indice .nombre { font-size: 1.15rem; flex: 1; }
+.indice .meta {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gris);
+  text-align: right;
+}
+.indice a:hover .nombre { color: var(--acento); }
+.vacio { padding: 14px 0; color: var(--gris); font-style: italic; }
 
-/* Detalle */
+.guia { margin-top: 32px; font-size: 0.95rem; }
+.guia summary {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--gris);
+}
+.guia ol { padding-left: 20px; margin: 10px 0 0; }
+
+/* Receta */
 .volver {
   display: inline-block;
-  color: var(--acento);
+  margin: 16px 0 0;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   text-decoration: none;
-  font-weight: 600;
-  margin-bottom: 8px;
+  color: var(--gris);
 }
 
-.receta h1 { font-size: 1.7rem; margin: 4px 0; line-height: 1.2; }
-.programa { color: var(--suave); margin-top: 0; }
-.receta h2 { font-size: 1.15rem; margin: 24px 0 8px; color: var(--acento); }
+.receta header { padding: 20px 0 18px; border-bottom: 1px solid var(--linea); }
+.receta h1 {
+  font-size: 2.2rem;
+  font-weight: normal;
+  line-height: 1.1;
+  margin: 4px 0 8px;
+  letter-spacing: -0.01em;
+}
+.receta .meta,
+.receta .programa {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+.receta .programa { color: var(--acento); }
+
+.receta h2 {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 24px 0 8px;
+}
 
 .ingredientes { list-style: none; padding: 0; margin: 0; }
-.ingredientes li { border-bottom: 1px solid var(--borde); }
-.ingredientes label { display: flex; gap: 12px; padding: 10px 2px; cursor: pointer; }
-.ingredientes input { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--acento); flex: none; }
-.ingredientes input:checked + span { text-decoration: line-through; color: var(--suave); }
+.ingredientes li { border-bottom: 1px solid var(--linea); }
+.ingredientes label { display: flex; gap: 12px; padding: 9px 0; cursor: pointer; }
+.ingredientes input {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 5px;
+  accent-color: var(--tinta);
+}
+.ingredientes input:checked + span { text-decoration: line-through; color: var(--gris); }
 
-.pasos { padding-left: 22px; }
-.pasos li { margin-bottom: 10px; }
+.pasos { padding-left: 1.3em; margin: 0; }
+.pasos li { margin-bottom: 12px; padding-left: 4px; }
+.pasos li::marker { font-family: var(--sans); font-size: 0.85rem; color: var(--gris); }
 
 .nota {
-  background: var(--rosa);
-  border-radius: 12px;
-  padding: 12px 14px;
-  margin-top: 14px;
+  margin: 18px 0 0;
+  padding-left: 14px;
+  border-left: 2px solid var(--acento);
+  font-size: 0.95rem;
 }
-.nota.consejo { background: var(--tarjeta); border: 1px solid var(--borde); }
+.nota b { font-weight: 600; }
 
-@media (min-width: 768px) {
-  body { font-size: 18px; }
-  .receta h1 { font-size: 2.1rem; }
+@media (min-width: 720px) {
+  .titulo { font-size: 2.4rem; }
+  .receta h1 { font-size: 2.8rem; }
+  .cuerpo {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 40px;
+  }
 }

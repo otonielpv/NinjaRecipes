@@ -4,21 +4,23 @@ let filtro = { texto: "", tipo: "Todas" };
 function lista() {
   const tipos = ["Todas", ...new Set(RECETAS.map((r) => r.tipo))];
   app.innerHTML = `
+    <div class="herramientas">
+      <input id="buscar" type="search" placeholder="Buscar receta o ingrediente" value="${filtro.texto}">
+      <nav class="filtros">
+        ${tipos.map((t) => `<button class="${t === filtro.tipo ? "activo" : ""}" data-tipo="${t}">${t}</button>`).join("")}
+      </nav>
+    </div>
+    <ol class="indice" id="recetas"></ol>
     <details class="guia">
-      <summary>Cómo usar la Creami</summary>
+      <summary>Notas de uso</summary>
       <ol>
-        <li>Llena el vaso solo hasta la línea <b>MAX</b>.</li>
-        <li>Congela <b>24 h</b> en una superficie plana.</li>
-        <li>Quita la tapa y usa el programa de la receta.</li>
-        <li>¿Sale arenoso? Añade 1 cucharada de leche y pulsa <b>RE-SPIN</b>.</li>
-        <li>Para los toppings: haz un hueco en el centro, añádelos y pulsa <b>MIX-IN</b>.</li>
+        <li>Llena el vaso solo hasta la línea MAX.</li>
+        <li>Congela 24 horas en una superficie plana.</li>
+        <li>Quita la tapa y usa el programa que indica la receta.</li>
+        <li>Si sale arenoso, añade una cucharada de leche y usa RE-SPIN.</li>
+        <li>Para los toppings, haz un hueco en el centro, añádelos y usa MIX-IN.</li>
       </ol>
     </details>
-    <input id="buscar" type="search" placeholder="Buscar receta…" value="${filtro.texto}">
-    <div class="chips">
-      ${tipos.map((t) => `<button class="chip ${t === filtro.tipo ? "activo" : ""}" data-tipo="${t}">${t}</button>`).join("")}
-    </div>
-    <ul class="recetas" id="recetas"></ul>
   `;
 
   const pintar = () => {
@@ -32,23 +34,23 @@ function lista() {
       ? res
           .map(
             (r) => `
-        <li><a href="#${r.id}" class="tarjeta">
-          <span class="emoji">${r.emoji}</span>
-          <span><b>${r.nombre}</b><small>${r.tipo} · ${r.programa}</small></span>
+        <li><a href="#${r.id}">
+          <span class="nombre">${r.nombre}</span>
+          <span class="meta">${r.tipo} · ${r.programa}</span>
         </a></li>`
           )
           .join("")
-      : `<li class="vacio">No hay recetas con ese nombre.</li>`;
+      : `<li class="vacio">No hay recetas que coincidan.</li>`;
   };
 
   document.getElementById("buscar").addEventListener("input", (e) => {
     filtro.texto = e.target.value;
     pintar();
   });
-  app.querySelectorAll(".chip").forEach((b) =>
+  app.querySelectorAll(".filtros button").forEach((b) =>
     b.addEventListener("click", () => {
       filtro.tipo = b.dataset.tipo;
-      app.querySelectorAll(".chip").forEach((c) => c.classList.toggle("activo", c === b));
+      app.querySelectorAll(".filtros button").forEach((c) => c.classList.toggle("activo", c === b));
       pintar();
     })
   );
@@ -57,21 +59,29 @@ function lista() {
 
 function detalle(r) {
   app.innerHTML = `
-    <a href="#" class="volver">← Todas las recetas</a>
+    <a href="#" class="volver">← Índice</a>
     <article class="receta">
-      <h1><span>${r.emoji}</span> ${r.nombre}</h1>
-      <p class="programa">${r.tipo} · Programa <b>${r.programa}</b></p>
+      <header>
+        <p class="meta">${r.tipo}</p>
+        <h1>${r.nombre}</h1>
+        <p class="programa">Programa: ${r.programa}</p>
+      </header>
 
-      <h2>Ingredientes</h2>
-      <ul class="ingredientes">
-        ${r.ingredientes.map((i) => `<li><label><input type="checkbox"> <span>${i}</span></label></li>`).join("")}
-      </ul>
+      <div class="cuerpo">
+        <section>
+          <h2>Ingredientes</h2>
+          <ul class="ingredientes">
+            ${r.ingredientes.map((i) => `<li><label><input type="checkbox"> <span>${i}</span></label></li>`).join("")}
+          </ul>
+        </section>
 
-      <h2>Pasos</h2>
-      <ol class="pasos">${r.pasos.map((p) => `<li>${p}</li>`).join("")}</ol>
-
-      ${r.mixin ? `<div class="nota"><b>MIX-IN:</b> ${r.mixin}</div>` : ""}
-      ${r.consejo ? `<div class="nota consejo"><b>Consejo:</b> ${r.consejo}</div>` : ""}
+        <section>
+          <h2>Elaboración</h2>
+          <ol class="pasos">${r.pasos.map((p) => `<li>${p}</li>`).join("")}</ol>
+          ${r.mixin ? `<p class="nota"><b>Mix-in.</b> ${r.mixin}</p>` : ""}
+          ${r.consejo ? `<p class="nota"><b>Nota.</b> ${r.consejo}</p>` : ""}
+        </section>
+      </div>
     </article>
   `;
 }

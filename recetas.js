@@ -7,7 +7,6 @@ const RECETAS = [
   {
     id: "vainilla",
     nombre: "Vainilla clásico",
-    emoji: "🍦",
     tipo: "Helado",
     programa: "ICE CREAM",
     ingredientes: [
@@ -29,7 +28,6 @@ const RECETAS = [
   {
     id: "chocolate",
     nombre: "Chocolate",
-    emoji: "🍫",
     tipo: "Helado",
     programa: "ICE CREAM",
     ingredientes: [
@@ -52,7 +50,6 @@ const RECETAS = [
   {
     id: "nutella",
     nombre: "Nutella",
-    emoji: "🌰",
     tipo: "Helado",
     programa: "ICE CREAM",
     ingredientes: [
@@ -73,7 +70,6 @@ const RECETAS = [
   {
     id: "kinder",
     nombre: "Kinder",
-    emoji: "🧒",
     tipo: "Helado",
     programa: "ICE CREAM",
     ingredientes: [
@@ -96,7 +92,6 @@ const RECETAS = [
   {
     id: "oreo",
     nombre: "Oreo (cookies & cream)",
-    emoji: "🍪",
     tipo: "Helado",
     programa: "ICE CREAM",
     ingredientes: [
@@ -119,7 +114,6 @@ const RECETAS = [
   {
     id: "fresa",
     nombre: "Fresa",
-    emoji: "🍓",
     tipo: "Helado",
     programa: "ICE CREAM",
     ingredientes: [
@@ -140,7 +134,6 @@ const RECETAS = [
   {
     id: "cafe",
     nombre: "Café",
-    emoji: "☕",
     tipo: "Helado",
     programa: "ICE CREAM",
     ingredientes: [
@@ -161,7 +154,6 @@ const RECETAS = [
   {
     id: "platano",
     nombre: "Plátano",
-    emoji: "🍌",
     tipo: "Helado",
     programa: "ICE CREAM",
     ingredientes: [
@@ -180,7 +172,6 @@ const RECETAS = [
   {
     id: "proteico-chocolate",
     nombre: "Proteico de chocolate",
-    emoji: "💪",
     tipo: "Ligero",
     programa: "LITE ICE CREAM",
     ingredientes: [
@@ -201,7 +192,6 @@ const RECETAS = [
   {
     id: "limon",
     nombre: "Sorbete de limón",
-    emoji: "🍋",
     tipo: "Sorbete",
     programa: "SORBET",
     ingredientes: [
@@ -220,7 +210,6 @@ const RECETAS = [
   {
     id: "mango",
     nombre: "Sorbete de mango",
-    emoji: "🥭",
     tipo: "Sorbete",
     programa: "SORBET",
     ingredientes: [
