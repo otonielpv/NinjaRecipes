@@ -9,6 +9,27 @@ try {
   botes = parseInt(localStorage.getItem("botes"), 10) || 1;
 } catch (e) {}
 
+// Textura cremosa: cambia 50 g de leche por 50 g de nata en cada bote
+const CAMBIO_CREMOSO = 50;
+let cremoso = false;
+try {
+  cremoso = localStorage.getItem("cremoso") === "1";
+} catch (e) {}
+
+const LECHE = /^(\d+) g de leche semidesnatada/;
+const NATA = /^(\d+) g de nata para montar/;
+const admiteCremoso = (r) => r.ingredientes.some((i) => LECHE.test(i)) && r.ingredientes.some((i) => NATA.test(i));
+
+// Cantidad de un ingrediente con la textura y el número de botes elegidos
+function cantidad(r, texto) {
+  if (cremoso && admiteCremoso(r)) {
+    texto = texto
+      .replace(LECHE, (_, g) => `${g - CAMBIO_CREMOSO} g de leche semidesnatada`)
+      .replace(NATA, (_, g) => `${+g + CAMBIO_CREMOSO} g de nata para montar`);
+  }
+  return escalar(texto);
+}
+
 const formatear = (x) => (Number.isInteger(x) ? String(x) : x.toFixed(1).replace(".", ","));
 
 // Multiplica todas las cantidades de un ingrediente (menos los porcentajes, como "35% MG")
@@ -28,8 +49,16 @@ function textoPaso(p) {
   return p.texto;
 }
 
-function selectorBotes() {
-  return `<div class="botes">
+function selectorBotes(r) {
+  const textura = admiteCremoso(r)
+    ? `<div class="botes textura">
+    <span>Textura</span>
+    <button data-cremoso="0" class="${cremoso ? "" : "activo"}">Normal</button>
+    <button data-cremoso="1" class="${cremoso ? "activo" : ""}">Cremoso</button>
+  </div>
+  ${cremoso ? `<p class="aviso">Más cremoso y menos polvoso al sacarlo: ${CAMBIO_CREMOSO} g de leche cambiados por nata en cada bote.</p>` : ""}`
+    : "";
+  return `${textura}<div class="botes">
     <span>Botes</span>
     ${[1, 2, 3, 4].map((n) => `<button data-botes="${n}" class="${n === botes ? "activo" : ""}">${n}</button>`).join("")}
   </div>
@@ -46,6 +75,15 @@ function activarSelector(alCambiar) {
       botes = parseInt(b.dataset.botes, 10);
       try {
         localStorage.setItem("botes", botes);
+      } catch (e) {}
+      alCambiar();
+    };
+  });
+  app.querySelectorAll("[data-cremoso]").forEach((b) => {
+    b.onclick = () => {
+      cremoso = b.dataset.cremoso === "1";
+      try {
+        localStorage.setItem("cremoso", cremoso ? "1" : "0");
       } catch (e) {}
       alCambiar();
     };
@@ -122,13 +160,13 @@ function ajustesCortos(p) {
 // Cantidades que se usan en un paso (ya multiplicadas por el número de botes)
 function cantidadesPaso(r, p, clase) {
   if (!p.con) return "";
-  const items = p.con.map((i) => escalar(r.ingredientes[i].replace(/^(Opcional para el|Para el) MIX-IN: /, "")));
+  const items = p.con.map((i) => cantidad(r, r.ingredientes[i].replace(/^(Opcional para el|Para el) MIX-IN: /, "")));
   return `<ul class="${clase}">${items.map((i) => `<li>${i}</li>`).join("")}</ul>`;
 }
 
 function ingredientesHTML(r) {
   return `<ul class="ingredientes">
-    ${r.ingredientes.map((i) => `<li><label><input type="checkbox"> <span>${escalar(i)}</span></label></li>`).join("")}
+    ${r.ingredientes.map((i) => `<li><label><input type="checkbox"> <span>${cantidad(r, i)}</span></label></li>`).join("")}
   </ul>`;
 }
 
@@ -146,7 +184,7 @@ function detalle(r) {
       <div class="cuerpo">
         <section>
           <h2>Ingredientes</h2>
-          ${selectorBotes()}
+          ${selectorBotes(r)}
           ${ingredientesHTML(r)}
         </section>
 
@@ -206,7 +244,7 @@ function modoPasos(r, n) {
   if (n === 0) {
     contenido = `<p class="etiqueta">Antes de empezar</p>
       <h2 class="instruccion">Prepara los ingredientes</h2>
-      ${selectorBotes()}
+      ${selectorBotes(r)}
       ${ingredientesHTML(r)}`;
   } else if (n === total) {
     contenido = `<p class="etiqueta">Terminado</p>
@@ -217,7 +255,7 @@ function modoPasos(r, n) {
     const p = pasos[n - 1];
     contenido = `<p class="etiqueta">Paso ${n} de ${pasos.length}</p>
       <h2 class="instruccion">${textoPaso(p)}</h2>
-      ${p.con ? `<div class="cantidades"><p class="aparato">Cantidades${botes > 1 ? ` · ${botes} botes` : ""}</p>${cantidadesPaso(r, p, "")}</div>` : ""}
+      ${p.con ? `<div class="cantidades"><p class="aparato">Cantidades${botes > 1 ? ` · ${botes} botes` : ""}${cremoso && admiteCremoso(r) ? " · cremoso" : ""}</p>${cantidadesPaso(r, p, "")}</div>` : ""}
       ${panel(p)}`;
   }
 
@@ -225,7 +263,7 @@ function modoPasos(r, n) {
     <div class="modo">
       <div class="modo-cabecera">
         <a href="#${r.id}" class="volver">✕ Salir</a>
-        <span class="modo-nombre">${r.nombre}${botes > 1 ? ` · ${botes} botes` : ""}</span>
+        <span class="modo-nombre">${r.nombre}${botes > 1 ? ` · ${botes} botes` : ""}${cremoso && admiteCremoso(r) ? " · cremoso" : ""}</span>
       </div>
       <div class="progreso"><span style="width:${(n / total) * 100}%"></span></div>
       <div class="modo-paso">${contenido}</div>
