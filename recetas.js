@@ -321,7 +321,7 @@ const RECETAS = [
       "100 g de nata para montar (35% MG)",
       "100 g de dulce de leche",
       "15 g de azúcar",
-      "2 pizcas de sal",
+      "2 g de sal fina",
       "Opcional para el MIX-IN: 1 cucharada de dulce de leche",
     ],
     pasos: [
@@ -334,6 +334,7 @@ const RECETAS = [
       respin(),
       con(creami("MIX-IN", "Opcional: haz un hueco en el centro, añade la cucharada de dulce de leche y procesa. Quedan vetas de caramelo."), 5),
     ],
+    consejo: "2 g de sal por bote son más o menos un tercio de cucharadita rasa de sal fina, por si la báscula no marca bien cantidades tan pequeñas. Si usas sal gorda, muélela antes o se quedará sin disolver.",
   },
   {
     id: "lotus",
